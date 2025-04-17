@@ -1,2 +1,2 @@
 # Hotel
-Repository for Applications Development and Emerging Technologies
+Repository for Applications Development and Emerging Technologies activities.
