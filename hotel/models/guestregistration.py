@@ -12,15 +12,10 @@ class guestregistration(models.Model):
     room_id = fields.Many2one("hotel.rooms", string="Room No.")
     guest_id = fields.Many2one("hotel.guests", string="Guest Name")
     
-    #roomname -< related fields found in the model hotel.rooms  
     roomname=fields.Char("Room No.",related='room_id.name')
     
-    #roomtname <- room type name found in the model hotel.rooms 
-    # also related to hotel.roomtypes
     roomtname=fields.Char("Room Type",related='room_id.roomtypename')
     
-    #guestname <- related field found as a computed field called name in 
-    # the model hotel.guests
     guestname=fields.Char("Guest Name",related='guest_id.name')
 
     datecreated = fields.Date("Date Created", default=lambda self: fields.Date.today())
@@ -57,13 +52,10 @@ class guestregistration(models.Model):
             elif (rec.datetoSched<rec.datefromSched):    
                 raise ValidationError('Invalid Date Range.')          
             else:
-                #get the primary key value of guest registration
                 pkid = rec.id
-                #call the postgresql function the check for conflicts
                 self._cr.execute("select * from public.fncheck_registrationconflict("+str(pkid)+")")
                 result = self._cr.fetchall()
                 
-                #gather the query results
                 result_cnt = result[0][0]
                 result_msg = result[0][1]
                 
@@ -87,14 +79,11 @@ class guestregistration(models.Model):
                 raise ValidationError('Invalid Date Range.')          
 
             else:
-                #get the primary key value of guest registration
                 pkid = rec.id
                 
-                #call the postgresql function the check for conflicts
                 self._cr.execute("select * from public.fncheck_registrationconflict("+str(pkid)+")")
                 result = self._cr.fetchall()
                 
-                #gather the query results
                 result_cnt = result[0][0]
                 result_msg = result[0][1]
                 
